@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau</title>
+</head>
+<body> <app-navbar2></app-navbar2>
+    <main>
+      <div class="card" style="padding: 30px;">
+        <form [formGroup]="registerF" (ngSubmit)="registerProf()">
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Nom *</span>
+              <input type="text" placeholder="Entrer votre nom" formControlName="nom" name="nom" id="nom" >
+              <small class="form-text text-muted" *ngIf="registerF.get('nom')?.touched && registerF.get('nom')?.invalid" style="color: red !important;">Nom est requis.</small>
+            </div>
+            <div class="input-box">
+              <span class="details">Prénom *</span>
+              <input type="text" placeholder="Entrer votre prénom" formControlName="prenom" name="prenom" id="prenom">
+              <small class="form-text text-muted" *ngIf="registerF.get('prenom')?.touched && registerF.get('prenom')?.invalid" style="color: red !important;">Prénom est requis.</small>
+            </div>
+            <div class="input-box">
+              <span class="details">Email *</span>
+              <input type="email" placeholder="Entrer votre email" #email formControlName="email" name="email" id="email">
+              <small class="form-text text-muted" *ngIf="registerF.get('email')?.touched && registerF.get('email')?.invalid && !registerF.get('email')?.errors?.['pattern']" style="color: red !important;">Email est requis.</small>
+            </div>
+            <div class="input-box">
+              <span class="details">Mot de passe *</span>
+              <input type="password" placeholder="Entrer votre mot de passe"formControlName="motdepasse" name="motdepasse" id="motdepasse">
+              <small class="form-text text-muted" *ngIf="registerF.get('motdepasse')?.touched && registerF.get('motdepasse')?.invalid" style="color: red !important;">Mot de passe est requis.</small>
+            </div>
+          </div>
+          <div class="button" >
+            <input type="submit" [disabled]="registerF.invalid" value="Ajouter">
+          </div>
+        </form>
+      </div>
+        <div class="mt-5">
+          <div class="input-group rounded" style="margin-bottom: 5px; margin-left: 4px; width: 50%;">
+            <input type="search"  name="search"  [(ngModel)]="searchText" class="form-control rounded" placeholder="Chercher professeur" aria-label="Search" aria-describedby="search-addon" />
+            <span class="input-group-text border-0" id="search-addon">
+              <i class="fas fa-search" ></i>
+            </span>
+          </div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Prenom</th>
+                  <th>Email</th>
+                  <th>Mot de passe</th>
+                  <th>Modifier</th>
+                  <th>Supprimer</th>
+                  
+                </tr>
+              </thead>
+              <tbody class="tbody" >
+                <tr *ngFor="let prof of profDetails| filter:searchText">
+                  <td>{{prof.nom}}</td>
+                  <td>{{prof.prenom}}</td>
+                  <td>{{prof.email}}</td>
+                  <td>{{prof.motdepasse}}</td>
+                  <td><button mat-raised-button type="button" color="primary" data-bs-toggle="modal" data-bs-target="#exampleModal"(click)="edit(prof)">Modifier</button></td>
+                  <td><button mat-raised-button type="button" color="warn"  data-bs-toggle="modal" data-bs-target="#exampleModal0" (click)="supp(prof)">Supprimer</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mise à jour d'un professeur</h5>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="updateF" (ngSubmit)="updateProf()">
+                  <div class="form-group">
+                    <label for="nom">Nom *</label>
+                    <input type="text" formControlName="nom"  #nom [(ngModel)]="profToUpdate.nom" name="nom" id="nom"
+                      class="form-control" placeholder="Entrer votre Nom">
+                      <small class="form-text text-muted" *ngIf="updateF.get('nom')?.touched && updateF.get('nom')?.invalid" style="color: red !important;">Nom est requis.</small>
+                  </div>                 
+                  <div class="form-group">
+                    <label for="prenom">Prénom *</label>
+                    <input type="text" formControlName="prenom" #prenom [(ngModel)]="profToUpdate.prenom" name="prenom" id="name" class="form-control"
+                      placeholder="Entrer votre Prenom">
+                      <small class="form-text text-muted" *ngIf="updateF.get('prenom')?.touched && updateF.get('prenom')?.invalid" style="color: red !important;">Prénom est requis.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" formControlName="email" #email [(ngModel)]="profToUpdate.email" name="email" id="email"
+                      class="form-control" placeholder="Entrer votre Email">
+                      <small class="form-text text-muted" *ngIf="updateF.get('email')?.touched && updateF.get('email')?.invalid && !updateF.get('email')?.errors?.['pattern']" style="color: red !important;">Email est requis.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="motdepasse">Mot de passe *</label>
+                    <input type="password" formControlName="motdepasse" #motdepasse [(ngModel)]="profToUpdate.motdepasse" name="motdepasse" id="motdepasse"
+                      class="form-control" placeholder="Entrer votre Mot de passe">
+                      <small class="form-text text-muted" *ngIf="updateF.get('motdepasse')?.touched && updateF.get('motdepasse')?.invalid" style="color: red !important;">Mot de passe est requis.</small>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <input position="center" data-bs-dismiss="modal" [disabled]="!updateF.valid" type="submit" value="Modifier" class="btn btn-warning">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="modal fade" id="exampleModal0" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Suppression d'un professeur</h5>
+              </div>
+              <div class="modal-body1">
+                <form  (ngSubmit)="deleteProf()">
+                       <p style="text-indent: 30px; font-size: large;"> Est-ce que vous êtes sûre ? </p>
+                  <div class="modal-footer">                    
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <input position="center" data-bs-dismiss="modal" type="submit" value="Supprimer" class="btn btn-danger">
+                  </div>
+                </form>
+              </div>             
+            </div>
+          </div>
+        </div>  
+    </main>
+    
+</body>
+</html>
+

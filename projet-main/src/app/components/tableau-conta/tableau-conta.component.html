@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <app-navbar2></app-navbar2>
+    </header>
+    <main>
+    <div class="mt-5">
+      <div class="input-group rounded" style="margin-bottom: 5px; margin-left: 4px; width: 50%;">
+        <input type="search"  name="search"  [(ngModel)]="searchText" class="form-control rounded" placeholder="Chercher message" aria-label="Search" aria-describedby="search-addon" />
+        <span class="input-group-text border-0" id="search-addon">
+          <i class="fas fa-search" ></i>
+        </span>
+      </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prenom</th>
+              <th>Numéro téléphone</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Répondre</th>
+              <th>Supprimer</th>
+              
+              
+            </tr>
+          </thead>
+          <tbody class="tbody" >
+            <tr *ngFor="let contact of contactDetails| filter:searchText">
+              <td>{{contact.nom}}</td>
+              <td>{{contact.prenom}}</td>
+              <td>0{{contact.num}}</td>
+              <td>{{contact.email}}</td>
+              <td>{{contact.message}}</td>
+              <td><a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{contact.email}}" target="_blank"><input  type="submit" value="Répondre" class="btn btn-warning"></a></td>
+              <td><button mat-raised-button type="button" color="warn"  data-bs-toggle="modal" (click)="supp(contact)" data-bs-target="#exampleModal0">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal fade" id="exampleModal0" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel1">Suppression d'un message</h5>
+            </div>
+            <div class="modal-body1">
+              <form form  (ngSubmit)="deleteContact()">
+                <p style="text-indent: 30px; font-size: large;"> Est-ce que vous êtes sûre ? </p>
+                <div class="modal-footer">                    
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                  <input position="center" data-bs-dismiss="modal" type="submit" value="Supprimer" class="btn btn-danger">
+                </div>
+              </form>
+            </div>             
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel1">Suppression d'un message</h5>
+            </div>
+            <div class="modal-body1">
+              <form form  (ngSubmit)="deleteContact()">
+                <p style="text-indent: 30px; font-size: large;"> Est-ce que vous êtes sûre ? </p>
+                <div class="modal-footer">                    
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                  <input position="center" data-bs-dismiss="modal" type="submit" value="Supprimer" class="btn btn-danger">
+                </div>
+              </form>
+            </div>             
+          </div>
+        </div>
+      </div>
+    </main>
+
+    
+</body>
+</html>

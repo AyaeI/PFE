@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Se connecter</title>
+</head>
+  <header>
+    <app-navbar></app-navbar>
+  </header>
+  <body>
+      <div class="wrapper">
+        <div class="title">Se connecter</div>
+        <form [formGroup]="loginEF" (ngSubmit)="loginStudent()" action="#">
+          <div class="field">
+            <input type="email" [(ngModel)]="student.email" id="email" name="email"formControlName="email"
+            pattern="^[a-zA-Z0-9._%+-]+@\etu\.uae\.ac\.ma$">
+          <small class="form-text text-muted" *ngIf="loginEF.get('email')?.touched && loginEF.get('email')?.invalid && !loginEF.get('email')?.errors?.['pattern']" style="color: red !important;">Email est requis.</small>
+          <small class="form-text text-muted" *ngIf="loginEF.get('email')?.touched && loginEF.get('email')?.errors?.['pattern']" style="color: red !important;">Email invalide.</small>
+            <label>Adresse email *</label>
+          </div>
+          <div class="field">
+            <input type="password" [(ngModel)]="student.motdepasse" id="motdepasse" name="motdepasse"formControlName="motdepasse">
+            <small class="form-text text-muted" *ngIf="loginEF.get('motdepasse')?.touched && loginEF.get('motdepasse')?.invalid" style="color: red !important;">Mot de passe est requis.</small>
+            <label>Mot de passe *</label>
+          </div>
+        <!--  <div class="content">
+            <div class="pass-link"(click)="handleForgetPasswordAction()">Mot de passe oublié ?</div> (click)="handleForgetPasswordAction()"
+          </div>-->
+          <div class="field">
+            <input type="submit" value="Se Connecter">
+          </div>
+          <div class="signup-link"> <a  routerLink="/registrerEtudiant">S'inscrire</a></div>
+     
+        </form>
+        
+        
+      </div>
+    
+ </body>
+
+</html>
